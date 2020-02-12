@@ -8,25 +8,29 @@ from myScrapy.items import MyscrapyItem
 
 class AaavSpider(scrapy.Spider):
     name = 'aaav'
-    allowed_domains = ['www.javbus.com']
-    start_urls = ['http://www.javbus.com/']
+    allowed_domains = ['http://www.nhc.gov.cn/']
+    start_urls = ['http://www.nhc.gov.cn/xcs/yqtb/list_gzbd.shtml']
     
-    video_url_xpath = "/html/body/div[@class='container-fluid']/div[@class='row']/div[@id='waterfall']/div[@id='waterfall']/div[@class='item']/a[@class='movie-box']"
-    next_url_css = "a#next"
+    news_url_xpath = "//ul[@class='zxxx_list']/li"
+    next_url_xpath = "//div[@id='page_div']/div[@class='pagination_index'][2]/span[@class='arrow']"
     rules = (
-        Rule(LinkExtractor(restrict_css=next_url_css),follow=True),
-        Rule(LinkExtractor(restrict_xpaths=video_url_xpath),callback='parse_item')
+        Rule(LinkExtractor(restrict_css=next_url_xpath),follow=True),
+        Rule(LinkExtractor(restrict_xpaths=news_url_xpath),callback='parse_item')
     )
 
     def parse_item(self, response):
         
-        title = response.xpath("/html/body/div[@class='container']/h3//text()").extract_first()
-        images = response.xpath("/html/body/div[@class='container']/div[@id='sample-waterfall']/a[@class='sample-box']//img//@src").extract()
-        mgnets = response.xpath("/html/body/div[@class='container']/div[@class='movie'][2]/table[@id='magnet-table']/tr/td[1]/a//@href").extract()
+        title = response.xpath("//div[@class='list']/div[@class='tit']//text()").extract()
+        pubtime = response.xpath("//div[@class='list']/div[@class='source']/span[1]//text()").extract()
+        author = response.xpath("//div[@class='list']/div[@class='source']/span[@class='mr']//text()").extract()
+        content = response.xpath("//div[@class='list']/div[@id='xw_box']/p[1]//text()").extract()
+        source = response.xpath("//div[@class='list']/div[@id='xw_box']/p[4]//text()").extract()
         
         item = MyscrapyItem()
         item['title'] = title
-        item['image_urls'] = images
-        item['mgnets'] = mgnets
+        item['pubtime'] = pubtime
+        item['author'] = author
+        item['content'] = content
+        item['source'] = source
 
         yield item

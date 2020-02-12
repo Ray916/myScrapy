@@ -7,6 +7,7 @@
 
 from scrapy import signals
 from scrapy.http.response.html import HtmlResponse
+
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
@@ -14,7 +15,6 @@ from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 import time
 import random
-
 
 class MyscrapySpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -112,7 +112,7 @@ class MyscrapyDownloaderMiddleware(object):
 
 class SeleniumDownloaderMiddleware(object):
 
-    def __init__(self):
+    def __init__(self, settings):
         #chrome无窗口模式
         chrome_options = Options()
         chrome_options.add_argument("--headless")
@@ -126,7 +126,9 @@ class SeleniumDownloaderMiddleware(object):
 
         #代理IP设置
         #proxy = '58.58.213.55:8888'
-        proxy = random.choice(spider.settings['PROXIES'])
+
+        proxy = random.choice(settings.get('PROXIES'))
+        print("随机获取的Proxy为： ", proxy)
         chrome_options.add_argument('--proxy-server=' + proxy)
 
         capabilities = DesiredCapabilities.CHROME.copy()

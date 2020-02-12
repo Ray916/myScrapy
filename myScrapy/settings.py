@@ -22,9 +22,6 @@ USER_AGENTS = []
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
-MAX_PAGE = 50
-IMAGES_STORE = './aaav'
-
 #proxy
 PROXIES=[
     "https://171.13.92.212:9797",
@@ -35,6 +32,9 @@ PROXIES=[
     "http://124.239.216.14:8060",
     "http://59.52.184.141:9999"
 ]
+
+#save file
+FILE_PATH = '/Users/xuezw/Downloads/wjw.csv'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -81,7 +81,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'myScrapy.pipelines.MyscrapyPipeline': 300,
+    'myScrapy.pipelines.MyfilePipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
