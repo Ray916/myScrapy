@@ -13,6 +13,7 @@ from selenium.webdriver.chrome.options import Options
 
 from fake_useragent import UserAgent
 import time
+import random
 
 
 class MyscrapySpiderMiddleware(object):
@@ -120,12 +121,13 @@ class SeleniumDownloaderMiddleware(object):
         ua = UserAgent()
         user_agent = ua.random
         print("随机获取的UserAgent为：",user_agent)
-        chrome_options.add_argument(f'user-agent={user_agent}')
-        #chrome_options.add_argument('--user-agent=%s' % user_agent)
+        #chrome_options.add_argument(f'user-agent={user_agent}')
+        chrome_options.add_argument('--user-agent=%s' % user_agent)
 
         #代理IP设置
-        proxy = '58.58.213.55:8888'
-        #chrome_options.add_argument('--proxy-server=' + proxy)
+        #proxy = '58.58.213.55:8888'
+        proxy = random.choice(spider.settings['PROXIES'])
+        chrome_options.add_argument('--proxy-server=' + proxy)
 
         capabilities = DesiredCapabilities.CHROME.copy()
         capabilities['acceptSslCerts'] = True

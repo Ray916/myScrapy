@@ -17,6 +17,7 @@ NEWSPIDER_MODULE = 'myScrapy.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'myScrapy (+http://www.yourdomain.com)'
+USER_AGENTS = []
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -24,11 +25,17 @@ ROBOTSTXT_OBEY = False
 MAX_PAGE = 50
 IMAGES_STORE = './aaav'
 
-ITEM_PIPELINES = {
-    'myScrapy.pipelines.MyscrapyPipeline': 300
-}
+#proxy
+PROXIES=[
+    "https://171.13.92.212:9797",
+    "https://164.163.234.210:8080",
+    "https://143.202.73.219:8080",
+    "https://103.75.166.15:8080",
+    "http://183.146.156.194:9999",
+    "http://124.239.216.14:8060",
+    "http://59.52.184.141:9999"
+]
 
-USER_AGENTS = []
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -73,9 +80,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'myScrapy.pipelines.MyscrapyPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'myScrapy.pipelines.MyscrapyPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
